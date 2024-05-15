@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./main.css" />
+  <title>Todo List</title>
+</head>
+<body>
+  <h1 class="font-bold text-5xl text-center my-5 text-indigo-500">Todo List</h1>
+  <form id="todoForm" id="todoForm" class="flex justify-center mt-10  items-center w-full  h-auto">
+    <input type="text" id="todoInput" placeholder="Enter your todo" id="todoInput" type="text" placeholder=" type your todo..." class="border-[1px] mx-2 rounded-md p-2 focus:outline-indigo-200 text-indigo-500 placeholder-blue-200 ">
+    <button type="submit" class="border my-2 capitalize px-3 py-1 rounded-3xl bg-yellow-300 hover:bg-yellow-400 text-lg font-serif">Add</button>
+  </form>
+  <div class="mt-10 h-auto  text-center mx-4 w-80%">
+      <ul id="todoList" id="showTodo" class="  flex flex-col bg justify-center items-center"></ul>
+  </div>
+
+  
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
+  const todoForm = document.getElementById('todoForm');
+  const todoInput = document.getElementById('todoInput');
+  const todoList = document.getElementById('todoList');
+
+  // Load todos from localStorage when the page loads
+  const savedTodos = new Set(JSON.parse(localStorage.getItem('todos')) || []);
+  savedTodos.forEach(todo => {
+    createTodoElement(todo);
+  });
+
+  todoForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const todoText = todoInput.value.trim();
+    if (todoText !== '') {
+      // Check if todo already exists
+      if (!savedTodos.has(todoText)) {
+        // Create todo item
+        createTodoElement(todoText);
+        
+        // Save todo to localStorage
+        savedTodos.add(todoText);
+        saveTodoToLocalStorage(savedTodos);
+      } else {
+        alert('This todo already exists!');
+      }
+
+      // Clear input field
+      todoInput.value = '';
+    }
+  });
+
+  function createTodoElement(todoText) {
+    const todoItem = document.createElement('li');
+    todoItem.textContent = todoText;
+    todoItem.className = "showDiv"
+    
+    // Create delete button
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.className = "btn2"
+    deleteButton.addEventListener('click', function() {
+      // Remove todo from list
+      todoList.removeChild(todoItem);
+      
+      // Remove todo from Set
+      savedTodos.delete(todoText);
+      
+      // Save updated todo list to localStorage
+      saveTodoToLocalStorage(savedTodos);
+    });
+    
+    // Append delete button to todo item
+    todoItem.appendChild(deleteButton);
+    
+    // Append todo item to list
+    todoList.appendChild(todoItem);
+  }
+
+  function saveTodoToLocalStorage(todosSet) {
+    localStorage.setItem('todos', JSON.stringify(Array.from(todosSet)));
+  }
+});
+
+  </script>
+</body>
+
+</html>

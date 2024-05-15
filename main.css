@@ -3,6 +3,33 @@
   padding: 0;
 }
 
-.absolute{
-  transition: 0.5s;
+.showDiv{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 1rem 1rem 0;
+  width: 100%;
+  padding-left:5rem ;
+  padding-right:5rem ;
+
+}
+.btn2{
+  margin-left: 5rem;
+  padding: 0.5rem 1rem;
+  background-color: rgb(238, 220, 28);
+  border-radius: 25px;
+  font-size: large;
+  font-family: serif ;
+}
+li{
+ list-style: none;
+}
+
+.showbg{
+  padding: 1rem;
+
+ background-color: rgba(192, 221, 255, 0.777);
+  border-radius: 10px;
+  box-shadow: 0px 10px 30px 5px rgb(232, 245, 255);
+ 
 }
