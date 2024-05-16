@@ -30,6 +30,7 @@
     createTodoElement(todo);
   });
 
+
   todoForm.addEventListener('submit', function(event) {
     event.preventDefault();
     const todoText = todoInput.value.trim();
@@ -80,6 +81,7 @@
 
   function saveTodoToLocalStorage(todosSet) {
     localStorage.setItem('todos', JSON.stringify(Array.from(todosSet)));
+
   }
 });
 

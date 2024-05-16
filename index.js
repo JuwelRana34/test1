@@ -4,51 +4,31 @@ let showTodo = document.getElementById("showTodo")
 let btn = document.getElementById("btn")
 let deletBtn = document.querySelector(".btn2")
 
+const getTodoFromLocal =  JSON.parse(localStorage.getItem("todoList")) || [];
+console.log(getTodoFromLocal);
+   getTodoFromLocal.forEach((todo) => {
+    createTodoElement(todo)
+   });
 
-const getTodoListFromLocal = () =>{
-  return JSON.parse(localStorage.getItem("todolist"))
+
+const setTodoToLocal = (todos)=>{
+ new Set( localStorage.setItem("todoList",JSON.stringify(todos ))) 
 }
 
-let localTodoList = getTodoListFromLocal() || []
-
-
-const addtododinamic = (elem)=>{
-  createTodoElement(elem)
-}
-
-
-
-const addtodoList = (e)=>{
- e.preventDefault()
- let todovalue = todoInput.value.trim()
-
-todoInput.value = " "
-
- localTodoList.push(todovalue)
- localTodoList = [... new Set(localTodoList)]
-console.log(localTodoList);
-
-localStorage.setItem("todoList", JSON.stringify(localTodoList) )
-
-
-createTodoElement(todovalue)
-
-//  document.getElementById("todoInput").value = " "
-
-}
-
- const showTodolist = ()=>{
-  localTodoList.forEach((elem)=>{
-addtododinamic(elem)
-console.log(elem);
-  })
-
-}
-
-showTodolist()
+let todoArry = []
 
 btn.addEventListener("click",function(e){
-  addtodoList(e);
+  e.preventDefault()
+ let todoValu = todoInput.value
+ let todoTrimValue = todoInput.value.trim()
+ todoArry.push(todoTrimValue)
+//  todoArry = [...new Set(todoArry)]
+ createTodoElement(todoTrimValue)
+ setTodoToLocal(todoArry)
+//  setTodoToLocal(getTodoFromLocal)
+ console.log(todoArry);
+
+
 
 
 })
@@ -57,7 +37,7 @@ btn.addEventListener("click",function(e){
 function createTodoElement(todovalue){
   const div = document.createElement("div")
   div.className = " showDiv"
-  div.innerHTML = `<li>⏩ ${todovalue}</li> <button class="btn2" >delet</button>`
+  div.innerHTML = `<li class=" text-lg font-medium hover:text-sky-700 transition" ><i class=" mr-2 text-green-600 items-center fa-solid fa-circle-check"></i> ${todovalue}</li> <button class="btn2" ><i class=" text-red-700  fa-regular fa-trash-can"></i></button>`
   showTodo.appendChild(div)
 
   if(showTodo !== " " ){
@@ -66,5 +46,7 @@ function createTodoElement(todovalue){
 }
 
 
-
+document.addEventListener("DOMContentLoaded", function(){
+  setTodoToLocal(getTodoFromLocal)
+})
 
