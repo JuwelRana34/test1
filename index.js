@@ -4,40 +4,42 @@ let showTodo = document.getElementById("showTodo")
 let btn = document.getElementById("btn")
 let deletBtn = document.querySelector(".btn2")
 
-const getTodoFromLocal =  JSON.parse(localStorage.getItem("todoList")) || [];
+
+// data set get method and set methos
+const getTodoFromLocal =  new Set( JSON.parse(localStorage.getItem("todoList")) || [] );
 console.log(getTodoFromLocal);
    getTodoFromLocal.forEach((todo) => {
     createTodoElement(todo)
    });
 
-
+// set function
 const setTodoToLocal = (todos)=>{
- new Set( localStorage.setItem("todoList",JSON.stringify(todos ))) 
+ localStorage.setItem("todoList",JSON.stringify(Array.from(todos)))
 }
 
-let todoArry = []
 
+// main function
 btn.addEventListener("click",function(e){
   e.preventDefault()
+
  let todoValu = todoInput.value
  let todoTrimValue = todoInput.value.trim()
- todoArry.push(todoTrimValue)
-//  todoArry = [...new Set(todoArry)]
- createTodoElement(todoTrimValue)
- setTodoToLocal(todoArry)
-//  setTodoToLocal(getTodoFromLocal)
- console.log(todoArry);
 
+ if(todoTrimValue !== "" && !getTodoFromLocal.has(todoTrimValue)){
+   createTodoElement(todoTrimValue)
+ getTodoFromLocal.add(todoTrimValue)
+ setTodoToLocal(getTodoFromLocal)
+ }
 
-
+todoInput.value = " "
 
 })
 
-
+// element function
 function createTodoElement(todovalue){
   const div = document.createElement("div")
   div.className = " showDiv"
-  div.innerHTML = `<li class=" text-lg font-medium hover:text-sky-700 transition" ><i class=" mr-2 text-green-600 items-center fa-solid fa-circle-check"></i> ${todovalue}</li> <button class="btn2" ><i class=" text-red-700  fa-regular fa-trash-can"></i></button>`
+  div.innerHTML = `<li class=" text-lg font-medium hover:text-sky-700 transition" ><i class=" mr-2 text-green-600 items-center fa-solid fa-circle-check"></i> ${todovalue}</li> <button class="btn2" ><i class=" text-red-700   fa-regular fa-trash-can"></i></button>`
   showTodo.appendChild(div)
 
   if(showTodo !== " " ){
@@ -46,7 +48,9 @@ function createTodoElement(todovalue){
 }
 
 
-document.addEventListener("DOMContentLoaded", function(){
-  setTodoToLocal(getTodoFromLocal)
-})
+// let main = document.querySelector("#showTodo")
 
+// main.addEventListener("click", function(e){
+//   e.preventDefault()
+//  console.log(e.target.classList.contains("btn2") ); 
+// })
