@@ -39,18 +39,20 @@ todoInput.value = " "
 function createTodoElement(todovalue){
   const div = document.createElement("div")
   div.className = " showDiv"
-  div.innerHTML = `<li class=" text-lg font-medium hover:text-sky-700 transition" ><i class=" mr-2 text-green-600 items-center fa-solid fa-circle-check"></i> ${todovalue}</li> <button class="btn2" ><i class=" text-red-700   fa-regular fa-trash-can"></i></button>`
+  div.innerHTML = `<li class=" text-lg font-medium hover:text-sky-700 transition" ><i class=" mr-2 text-green-600 items-center fa-solid fa-circle-check"></i> ${todovalue}</li> <button class="btn2 icon " ><i class=" text-red-700 icon h-auto w-full  fa-regular fa-trash-can"></i></button>`
+
   showTodo.appendChild(div)
 
   if(showTodo !== " " ){
     showTodo.classList.add("showbg")
   }
+
 }
 
 
-// let main = document.querySelector("#showTodo")
+  document.getElementById("showTodo").addEventListener("click", function(){
+    
+    localStorage.removeItem("todoList")
+    
+  })
 
-// main.addEventListener("click", function(e){
-//   e.preventDefault()
-//  console.log(e.target.classList.contains("btn2") ); 
-// })
